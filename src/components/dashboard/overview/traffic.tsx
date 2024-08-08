@@ -15,6 +15,7 @@ import { Phone as PhoneIcon } from '@phosphor-icons/react/dist/ssr/Phone';
 import type { ApexOptions } from 'apexcharts';
 
 import { Chart } from '@/components/core/chart';
+import { userAdmin } from '@/zustand/state';
 
 const iconMapping = { Desktop: DesktopIcon, Tablet: DeviceTabletIcon, Phone: PhoneIcon } as Record<string, Icon>;
 
@@ -24,8 +25,11 @@ export interface TrafficProps {
   sx?: SxProps;
 }
 
-export function Traffic({ chartSeries, labels, sx }: TrafficProps): React.JSX.Element {
+export function Traffic({ labels, sx }: TrafficProps): React.JSX.Element {
   const chartOptions = useChartOptions(labels);
+  const { talentsPerWeek, talents } = userAdmin();
+
+  const chartSeries = [talents, talentsPerWeek]
 
   return (
     <Card sx={sx}>
@@ -43,7 +47,7 @@ export function Traffic({ chartSeries, labels, sx }: TrafficProps): React.JSX.El
                   {Icon ? <Icon fontSize="var(--icon-fontSize-lg)" /> : null}
                   <Typography variant="h6">{label}</Typography>
                   <Typography color="text.secondary" variant="subtitle2">
-                    {item}%
+                    {(item * 100)/talents}%
                   </Typography>
                 </Stack>
               );

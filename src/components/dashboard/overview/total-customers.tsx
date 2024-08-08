@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
@@ -8,6 +9,8 @@ import Typography from '@mui/material/Typography';
 import { ArrowDown as ArrowDownIcon } from '@phosphor-icons/react/dist/ssr/ArrowDown';
 import { ArrowUp as ArrowUpIcon } from '@phosphor-icons/react/dist/ssr/ArrowUp';
 import { Users as UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
+import axiosInstance from '@/utils/utils';
+import { userAdmin } from '@/zustand/state';
 
 export interface TotalCustomersProps {
   diff?: number;
@@ -20,6 +23,21 @@ export function TotalCustomers({ diff, trend, sx, value }: TotalCustomersProps):
   const TrendIcon = trend === 'up' ? ArrowUpIcon : ArrowDownIcon;
   const trendColor = trend === 'up' ? 'var(--mui-palette-success-main)' : 'var(--mui-palette-error-main)';
 
+  const { talents, updateUserAdmin } = userAdmin();
+
+  const getData = async () => {
+    try {
+      const response = await axiosInstance.get('/dashboard/total-talents');
+      updateUserAdmin('talents', response.data);
+    } catch (error) {
+      console.log('Error fetching data:', error.message);
+    }
+  };
+
+  React.useEffect(() => {
+    void getData();
+  }, []);
+
   return (
     <Card sx={sx}>
       <CardContent>
@@ -29,7 +47,8 @@ export function TotalCustomers({ diff, trend, sx, value }: TotalCustomersProps):
               <Typography color="text.secondary" variant="overline">
                 Total Talents
               </Typography>
-              <Typography variant="h4">{value}</Typography>
+              {/* <Typography variant="h4">{value}</Typography> */}
+              <Typography variant="h4">{talents}</Typography>
             </Stack>
             <Avatar sx={{ backgroundColor: 'var(--mui-palette-success-main)', height: '56px', width: '56px' }}>
               <UsersIcon fontSize="var(--icon-fontSize-lg)" />

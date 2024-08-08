@@ -14,14 +14,32 @@ import { ArrowRight as ArrowRightIcon } from '@phosphor-icons/react/dist/ssr/Arr
 import type { ApexOptions } from 'apexcharts';
 
 import { Chart } from '@/components/core/chart';
+import { userAdmin } from '@/zustand/state';
+import axiosInstance from '@/utils/utils';
 
 export interface SalesProps {
-  chartSeries: { name: string; data: number[] }[];
+  chartSeries?: { name: string; data: number[] }[];
   sx?: SxProps;
 }
 
-export function Sales({ chartSeries, sx }: SalesProps): React.JSX.Element {
+export function Sales({ sx }: SalesProps): React.JSX.Element {
   const chartOptions = useChartOptions();
+
+  // talents-stats
+  const { updateUserAdmin, talentsPerWeek, talents, talentStats } = userAdmin();
+
+  const getData = async () => {
+    try {
+      const response = await axiosInstance.get('/dashboard/talents-stats');
+      updateUserAdmin('talentStats', response.data);
+    } catch (error) {
+      console.log('Error fetching data:', error);
+    }
+  };
+
+  React.useEffect(() => {
+    void getData();
+  }, []);
 
   return (
     <Card sx={sx}>
@@ -34,7 +52,7 @@ export function Sales({ chartSeries, sx }: SalesProps): React.JSX.Element {
         title="Talent Statistics"
       />
       <CardContent>
-        <Chart height={350} options={chartOptions} series={chartSeries} type="bar" width="100%" />
+        <Chart height={350} options={chartOptions} series={talentStats} type="bar" width="100%" />
       </CardContent>
       <Divider />
       <CardActions sx={{ justifyContent: 'flex-end' }}>

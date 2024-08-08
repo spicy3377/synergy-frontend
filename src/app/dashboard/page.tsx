@@ -40,7 +40,7 @@ export default function Page(): React.JSX.Element {
         />
       </Grid>
       <Grid lg={4} md={6} xs={12}>
-        <Traffic chartSeries={[63, 27]} labels={['Total Talents', 'Verified Talents']} sx={{ height: '100%' }} />
+        <Traffic labels={['Total Talents', 'Verified Talents']} sx={{ height: '100%' }} />
       </Grid>
     </Grid>
   );
