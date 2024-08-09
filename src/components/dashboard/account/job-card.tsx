@@ -1,29 +1,25 @@
+"use client"
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
+import Grid from '@mui/material/Unstable_Grid2';
+import axiosInstance from '@/utils/utils';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Clock as ClockIcon } from '@phosphor-icons/react/dist/ssr/Clock';
-import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
-import dayjs from 'dayjs';
+import { userAdmin } from '@/zustand/state';
 
-export interface Integration {
+
+export interface Jobs {
   id: number;
-  name: string;
-  // description: string;
-  // logo: string;
-  // installs: number;
-  // updatedAt: Date;
+  title: string;
 }
 
 export interface IntegrationCardProps {
-  integration: Integration;
+  integration: Jobs;
 }
 
-export function IntegrationCard({ integration }: IntegrationCardProps): React.JSX.Element {
+function IntegrationCard({ integration }: IntegrationCardProps): React.JSX.Element {
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       <CardContent sx={{ flex: '1 1 auto' }}>
@@ -33,7 +29,7 @@ export function IntegrationCard({ integration }: IntegrationCardProps): React.JS
           </Box> */}
           <Stack spacing={1}>
             <Typography align="center" variant="h5">
-              {integration.name}
+              {integration.title}
             </Typography>
             {/* <Typography align="center" variant="body1">
               {integration.description}
@@ -59,3 +55,33 @@ export function IntegrationCard({ integration }: IntegrationCardProps): React.JS
     </Card>
   );
 }
+
+function JobsCard(): React.JSX.Element{
+    const {allJobs, updateUserAdmin} = userAdmin()
+
+    const getData = async () => {
+        try {
+          const response = await axiosInstance.get('/jobs');
+          updateUserAdmin('allJobs', response.data);
+          updateUserAdmin('allJobsFixed', response.data);
+        } catch (error) {
+          console.log('Error fetching data:', error);
+        }
+      };
+    
+      React.useEffect(() => {
+        void getData();
+      }, []);
+
+  return (
+    <Grid container spacing={3}>
+    {allJobs.map((integration) => (
+        <Grid key={integration.id} lg={4} md={6} xs={12}>
+        <IntegrationCard integration={integration} />
+        </Grid>
+    ))}
+    </Grid>
+  )
+}
+
+export default JobsCard

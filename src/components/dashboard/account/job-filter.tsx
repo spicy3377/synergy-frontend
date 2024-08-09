@@ -6,9 +6,9 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import { MagnifyingGlass as MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
 import { userAdmin } from '@/zustand/state';
 
-export function CompaniesFilters(): React.JSX.Element {
+export function JobFilters(): React.JSX.Element {
 
-  const { allSkills, allSkillsFixed, updateUserAdmin } = userAdmin();
+  const { allJobs, allJobsFixed, updateUserAdmin } = userAdmin();
 
   const handleSearchAndSort = (event) => {
     const { value: searchTerm } = event.target;
@@ -16,19 +16,19 @@ export function CompaniesFilters(): React.JSX.Element {
 
     // If the search term is empty, reset to the original list
     if (normalizedSearchTerm.length === 0) {
-      updateUserAdmin("allSkills", allSkillsFixed);
+      updateUserAdmin("allJobs", allJobsFixed);
       return;
     }
 
     // Filter talents by both first_name and last_name
-    const filteredAndSortedTalents = allSkills
+    const filteredAndSortedTalents = allJobs
       .filter(item => 
-        item.name?.toLowerCase().includes(normalizedSearchTerm)
+        item.title?.toLowerCase().includes(normalizedSearchTerm) 
       )
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort((a, b) => a.title.localeCompare(b.title));
 
     // Update the state with the filtered and sorted results
-    updateUserAdmin("allSkills", filteredAndSortedTalents);
+    updateUserAdmin("allJobs", filteredAndSortedTalents);
   };
 
   return (

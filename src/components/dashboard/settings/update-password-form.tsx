@@ -20,17 +20,16 @@ export function UpdatePasswordForm(): React.JSX.Element {
       }}
     >
       <Card>
-        <CardHeader subheader="Update password" title="Password" />
+        <CardHeader subheader="Restricted usernames" title="Restricted" />
         <Divider />
         <CardContent>
           <Stack spacing={3} sx={{ maxWidth: 'sm' }}>
+            synergyy
+            synergyyHQ
+            synergyng
             <FormControl fullWidth>
-              <InputLabel>Password</InputLabel>
-              <OutlinedInput label="Password" name="password" type="password" />
-            </FormControl>
-            <FormControl fullWidth>
-              <InputLabel>Confirm password</InputLabel>
-              <OutlinedInput label="Confirm password" name="confirmPassword" type="password" />
+              <InputLabel>Add restricted username</InputLabel>
+              <OutlinedInput label="add a restricted username" name="username" type="text" />
             </FormControl>
           </Stack>
         </CardContent>

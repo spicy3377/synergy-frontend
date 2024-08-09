@@ -25,7 +25,6 @@ export interface SalesProps {
 export function Sales({ sx }: SalesProps): React.JSX.Element {
   const chartOptions = useChartOptions();
 
-  // talents-stats
   const { updateUserAdmin, talentsPerWeek, talents, talentStats } = userAdmin();
 
   const getData = async () => {
