@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Box } from "@mui/material";
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
+import axiosInstance from "@/utils/utils";
 
 interface FormProps {
   onSubmit?: (formData: Record<string, string>) => void;
@@ -15,9 +16,9 @@ const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
 
 export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
   const [formData, setFormData] = useState({
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
-    password: "",
   });
 
   const [formVisible, setFormVisible] = useState(false);
@@ -34,6 +35,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit?.(formData);
+    void axiosInstance.post("/dashboard", formData)
   };
 
 
@@ -90,11 +92,20 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
               }}
             >
               <TextField
-                name="name"
-                label="Name"
+                name="first_name"
+                label="First Name"
                 variant="outlined"
-                value={formData.name}
+                value={formData.first_name}
                 onChange={handleChange}
+                fullWidth
+              />
+              <TextField
+                name="last_name"
+                label="Last Name"
+                variant="outlined"
+                value={formData.last_name}
+                onChange={handleChange}
+                type="password"
                 fullWidth
               />
               <TextField
@@ -103,15 +114,6 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
                 variant="outlined"
                 value={formData.email}
                 onChange={handleChange}
-                fullWidth
-              />
-              <TextField
-                name="password"
-                label="Password"
-                variant="outlined"
-                value={formData.password}
-                onChange={handleChange}
-                type="password"
                 fullWidth
               />
               <Button type="submit" variant="contained" fullWidth>
@@ -126,7 +128,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
 
 export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
   const [formData, setFormData] = useState({
-    skill: "",
+    name: "",
     // email: "",
     // password: "",
   });
@@ -145,6 +147,7 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit?.(formData);
+    void axiosInstance.post("/skills", formData)
   };
 
 
@@ -204,7 +207,7 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
                 name="skill"
                 label="Skill"
                 variant="outlined"
-                value={formData.skill}
+                value={formData.name}
                 onChange={handleChange}
                 fullWidth
               />
