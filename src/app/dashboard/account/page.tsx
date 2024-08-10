@@ -14,6 +14,7 @@ import { CompaniesFilters } from '@/components/dashboard/integrations/integratio
 import SkillsCard from '@/components/dashboard/integrations/skills-card';
 import { JobFilters } from '@/components/dashboard/account/job-filter';
 import JobsCard from '@/components/dashboard/account/job-card';
+import { AddJobs } from '@/components/dashboard/layout/PopUp';
 
 export const metadata = { title: `Jobs and Accounts | Dashboard | ${config.site.name}` } satisfies Metadata;
 
@@ -33,9 +34,7 @@ export default function Page(): React.JSX.Element {
           </Stack>
         </Stack>
         <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-            Add
-          </Button>
+          <AddJobs/>
         </div>
       </Stack>
       <JobFilters />

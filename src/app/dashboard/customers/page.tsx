@@ -10,6 +10,7 @@ import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 import { config } from '@/config';
 import { CustomersFilters } from '@/components/dashboard/customer/customers-filters';
 import { CustomersTable } from '@/components/dashboard/customer/customers-table';
+import { MyForm } from '@/components/dashboard/layout/PopUp';
 
 export const metadata = { title: `Talents | Dashboard | ${config.site.name}` } satisfies Metadata;
 
@@ -32,9 +33,10 @@ export default function Page(): React.JSX.Element {
           </Stack>
         </Stack>
         <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
+          {/* <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
             Add
-          </Button>
+          </Button> */}
+          <MyForm/>
         </div>
       </Stack>
       <CustomersFilters />

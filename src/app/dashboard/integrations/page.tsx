@@ -14,6 +14,7 @@ import { config } from '@/config';
 import type { Integration } from '@/components/dashboard/integrations/integrations-card';
 import { CompaniesFilters } from '@/components/dashboard/integrations/integrations-filters';
 import SkillsCard from '@/components/dashboard/integrations/skills-card';
+import { AddSkills } from '@/components/dashboard/layout/PopUp';
 
 export const metadata = { title: `Integrations | Dashboard | ${config.site.name}` } satisfies Metadata;
 
@@ -33,9 +34,7 @@ export default function Page(): React.JSX.Element {
           </Stack>
         </Stack>
         <div>
-          <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-            Add
-          </Button>
+          <AddSkills/>
         </div>
       </Stack>
       <CompaniesFilters />
