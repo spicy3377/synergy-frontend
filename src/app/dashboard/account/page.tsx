@@ -6,12 +6,9 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
 import { config } from '@/config';
-import { CompaniesFilters } from '@/components/dashboard/integrations/integrations-filters';
-import SkillsCard from '@/components/dashboard/integrations/skills-card';
 import { JobFilters } from '@/components/dashboard/account/job-filter';
 import JobsCard from '@/components/dashboard/account/job-card';
 import { AddJobs } from '@/components/dashboard/layout/PopUp';

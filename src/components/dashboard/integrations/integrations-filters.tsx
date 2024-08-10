@@ -10,7 +10,8 @@ export function CompaniesFilters(): React.JSX.Element {
 
   const { allSkills, allSkillsFixed, updateUserAdmin } = userAdmin();
 
-  const handleSearchAndSort = (event) => {
+
+  const handleSearchAndSort = (event: { target: { value: string; }; }) => {
     const { value: searchTerm } = event.target;
     const normalizedSearchTerm = searchTerm.toLowerCase();
 

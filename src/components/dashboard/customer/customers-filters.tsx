@@ -9,7 +9,8 @@ import { userAdmin } from '@/zustand/state';
 export function CustomersFilters(): React.JSX.Element {
   const { allTalents, allTalentsFixed, updateUserAdmin } = userAdmin();
 
-  const handleSearchAndSort = (event) => {
+
+  const handleSearchAndSort = (event: { target: { value: string; }; }) => {
     const { value: searchTerm } = event.target;
     const normalizedSearchTerm = searchTerm.toLowerCase();
 
@@ -37,7 +38,6 @@ export function CustomersFilters(): React.JSX.Element {
     <Card sx={{ p: 2 }}>
       <OutlinedInput
         onChange={handleSearchAndSort}
-        onInputCapture={handleSearchAndSort}
         defaultValue=""
         fullWidth
         placeholder="Search Talents"

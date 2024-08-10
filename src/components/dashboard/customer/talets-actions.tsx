@@ -5,9 +5,9 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 function ActionDropdown({ id }: {
     id: string;
 }): React.JSX.Element {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: { currentTarget: React.SetStateAction<null>; }) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 

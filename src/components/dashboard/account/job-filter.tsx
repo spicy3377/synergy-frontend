@@ -10,7 +10,7 @@ export function JobFilters(): React.JSX.Element {
 
   const { allJobs, allJobsFixed, updateUserAdmin } = userAdmin();
 
-  const handleSearchAndSort = (event) => {
+  const handleSearchAndSort = (event: { target: { value: string; }; }) => {
     const { value: searchTerm } = event.target;
     const normalizedSearchTerm = searchTerm.toLowerCase();
 

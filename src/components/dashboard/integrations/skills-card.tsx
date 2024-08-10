@@ -8,19 +8,19 @@ import axiosInstance from '@/utils/utils';
 function SkillsCard(): React.JSX.Element{
     const {allSkills, updateUserAdmin} = userAdmin()
 
-    const getData = async () => {
-        try {
-          const response = await axiosInstance.get('/skills');
-          updateUserAdmin('allSkills', response.data);
-          updateUserAdmin('allSkillsFixed', response.data);
-        } catch (error) {
-          console.log('Error fetching data:', error);
-        }
-      };
     
       React.useEffect(() => {
+        const getData = async () => {
+          // try {
+            const response = await axiosInstance.get('/skills');
+            updateUserAdmin('allSkills', response.data);
+            updateUserAdmin('allSkillsFixed', response.data);
+          // } catch (error) {
+          //   // console.log('Error fetching data:', error);
+          // }
+        };
         void getData();
-      }, []);
+      }, [updateUserAdmin]);
 
   return (
     <Grid container spacing={3}>

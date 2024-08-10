@@ -16,27 +16,28 @@ export interface TotalCustomersProps {
   diff?: number;
   trend: 'up' | 'down';
   sx?: SxProps;
-  value: string;
+  // value: string;
 }
 
-export function TotalCustomers({ diff, trend, sx, value }: TotalCustomersProps): React.JSX.Element {
+export function TotalCustomers({ diff, trend, sx }: TotalCustomersProps): React.JSX.Element {
   const TrendIcon = trend === 'up' ? ArrowUpIcon : ArrowDownIcon;
   const trendColor = trend === 'up' ? 'var(--mui-palette-success-main)' : 'var(--mui-palette-error-main)';
 
   const { talents, updateUserAdmin } = userAdmin();
 
-  const getData = async () => {
-    try {
-      const response = await axiosInstance.get('/dashboard/total-talents');
-      updateUserAdmin('talents', response.data);
-    } catch (error) {
-      console.log('Error fetching data:', error.message);
-    }
-  };
-
+  
   React.useEffect(() => {
-    void getData();
-  }, []);
+      async function getData(){
+        // try {
+          const response = await axiosInstance.get('/dashboard/total-talents');
+          updateUserAdmin('talents', response.data);
+        // } catch (error) {
+        //   const typedError = error as Error;
+        //   // console.log('Error fetching data:', typedError.message);
+        // }
+      };
+      void getData()
+  }, [updateUserAdmin]);
 
   return (
     <Card sx={sx}>

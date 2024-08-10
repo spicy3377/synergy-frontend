@@ -59,19 +59,19 @@ function IntegrationCard({ integration }: IntegrationCardProps): React.JSX.Eleme
 function JobsCard(): React.JSX.Element{
     const {allJobs, updateUserAdmin} = userAdmin()
 
-    const getData = async () => {
-        try {
-          const response = await axiosInstance.get('/jobs');
-          updateUserAdmin('allJobs', response.data);
-          updateUserAdmin('allJobsFixed', response.data);
-        } catch (error) {
-          console.log('Error fetching data:', error);
-        }
-      };
     
       React.useEffect(() => {
+        const getData = async () => {
+          // try {
+            const response = await axiosInstance.get('/jobs');
+            updateUserAdmin('allJobs', response.data);
+            updateUserAdmin('allJobsFixed', response.data);
+          // } catch (error) {
+          //   // console.log('Error fetching data:', error);
+          // }
+        };
         void getData();
-      }, []);
+      }, [updateUserAdmin]);
 
   return (
     <Grid container spacing={3}>

@@ -25,20 +25,21 @@ export interface SalesProps {
 export function Sales({ sx }: SalesProps): React.JSX.Element {
   const chartOptions = useChartOptions();
 
-  const { updateUserAdmin, talentsPerWeek, talents, talentStats } = userAdmin();
+  const { updateUserAdmin, talentStats } = userAdmin();
 
-  const getData = async () => {
-    try {
-      const response = await axiosInstance.get('/dashboard/talents-stats');
-      updateUserAdmin('talentStats', response.data);
-    } catch (error) {
-      console.log('Error fetching data:', error);
-    }
-  };
-
+  
   React.useEffect(() => {
+    const getData = async () => {
+      // try {
+        const response = await axiosInstance.get('/dashboard/talents-stats');
+        updateUserAdmin('talentStats', response.data);
+      // } catch (error) {
+      //   const typedError = error as Error;
+      //   // console.log('Error fetching data:', typedError.message);
+      // }
+    };
     void getData();
-  }, []);
+  }, [updateUserAdmin]);
 
   return (
     <Card sx={sx}>

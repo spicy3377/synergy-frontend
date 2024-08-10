@@ -4,8 +4,14 @@ import { TextField, Button, Box } from "@mui/material";
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 
 interface FormProps {
-  onSubmit: (formData: Record<string, string>) => void;
+  onSubmit?: (formData: Record<string, string>) => void;
 }
+
+const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+  }
+};
 
 export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
   const [formData, setFormData] = useState({
@@ -24,14 +30,17 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
     });
   };
 
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(formData);
+    onSubmit?.(formData);
   };
+
 
   const handleBackgroundClick = () => {
     setFormVisible(false); // Close the form when clicking outside
   };
+
 
   const handleFormClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation(); // Prevent closing the form when clicking inside it
@@ -58,52 +67,58 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
           }}
           onClick={handleBackgroundClick}
         >
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              maxWidth: 400,
-              width: "100%",
-              mx: "auto",
-              p: 3,
-              backgroundColor: "#fff",
-              boxShadow: 3,
-              borderRadius: 1,
-            }}
+          <div
             onClick={handleFormClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="button"
           >
-            <TextField
-              name="name"
-              label="Name"
-              variant="outlined"
-              value={formData.name}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              name="email"
-              label="Email"
-              variant="outlined"
-              value={formData.email}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              name="password"
-              label="Password"
-              variant="outlined"
-              value={formData.password}
-              onChange={handleChange}
-              type="password"
-              fullWidth
-            />
-            <Button type="submit" variant="contained" fullWidth>
-              Add Talent
-            </Button>
-          </Box>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                maxWidth: 400,
+                width: "100%",
+                mx: "auto",
+                p: 3,
+                backgroundColor: "#fff",
+                boxShadow: 3,
+                borderRadius: 1,
+              }}
+            >
+              <TextField
+                name="name"
+                label="Name"
+                variant="outlined"
+                value={formData.name}
+                onChange={handleChange}
+                fullWidth
+              />
+              <TextField
+                name="email"
+                label="Email"
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+                fullWidth
+              />
+              <TextField
+                name="password"
+                label="Password"
+                variant="outlined"
+                value={formData.password}
+                onChange={handleChange}
+                type="password"
+                fullWidth
+              />
+              <Button type="submit" variant="contained" fullWidth>
+                Add Talent
+              </Button>
+            </Box>
+          </div>
         </Box> : null}
     </>
   );
@@ -118,6 +133,7 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
 
   const [formVisible, setFormVisible] = useState(false);
 
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({
@@ -128,12 +144,14 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(formData);
+    onSubmit?.(formData);
   };
+
 
   const handleBackgroundClick = () => {
     setFormVisible(false); // Close the form when clicking outside
   };
+
 
   const handleFormClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation(); // Prevent closing the form when clicking inside it
@@ -160,52 +178,58 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
           }}
           onClick={handleBackgroundClick}
         >
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              maxWidth: 400,
-              width: "100%",
-              mx: "auto",
-              p: 3,
-              backgroundColor: "#fff",
-              boxShadow: 3,
-              borderRadius: 1,
-            }}
+          <div
             onClick={handleFormClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="button"
           >
-            <TextField
-              name="skill"
-              label="Skill"
-              variant="outlined"
-              value={formData.name}
-              onChange={handleChange}
-              fullWidth
-            />
-            {/* <TextField
-              name="email"
-              label="Email"
-              variant="outlined"
-              value={formData.email}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              name="password"
-              label="Password"
-              variant="outlined"
-              value={formData.password}
-              onChange={handleChange}
-              type="password"
-              fullWidth
-            /> */}
-            <Button type="submit" variant="contained" fullWidth>
-              Add Skill
-            </Button>
-          </Box>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                maxWidth: 400,
+                width: "100%",
+                mx: "auto",
+                p: 3,
+                backgroundColor: "#fff",
+                boxShadow: 3,
+                borderRadius: 1,
+              }}
+            >
+              <TextField
+                name="skill"
+                label="Skill"
+                variant="outlined"
+                value={formData.skill}
+                onChange={handleChange}
+                fullWidth
+              />
+              {/* <TextField
+                name="email"
+                label="Email"
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+                fullWidth
+              />
+              <TextField
+                name="password"
+                label="Password"
+                variant="outlined"
+                value={formData.password}
+                onChange={handleChange}
+                type="password"
+                fullWidth
+              /> */}
+              <Button type="submit" variant="contained" fullWidth>
+                Add Skill
+              </Button>
+            </Box>
+          </div>
         </Box> : null}
     </>
   );
@@ -219,6 +243,7 @@ export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
 
   const [formVisible, setFormVisible] = useState(false);
 
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData({
@@ -227,10 +252,12 @@ export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
     });
   };
 
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(formData);
+    onSubmit?.(formData);
   };
+
 
   const handleBackgroundClick = () => {
     setFormVisible(false); // Close the form when clicking outside
@@ -261,52 +288,41 @@ export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
           }}
           onClick={handleBackgroundClick}
         >
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-              maxWidth: 400,
-              width: "100%",
-              mx: "auto",
-              p: 3,
-              backgroundColor: "#fff",
-              boxShadow: 3,
-              borderRadius: 1,
-            }}
+          <div
             onClick={handleFormClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="button"
           >
-            <TextField
-              name="title"
-              label="job title"
-              variant="outlined"
-              value={formData.name}
-              onChange={handleChange}
-              fullWidth
-            />
-            {/* <TextField
-              name="email"
-              label="Email"
-              variant="outlined"
-              value={formData.email}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              name="password"
-              label="Password"
-              variant="outlined"
-              value={formData.password}
-              onChange={handleChange}
-              type="password"
-              fullWidth
-            /> */}
-            <Button type="submit" variant="contained" fullWidth>
-              Add Job Title
-            </Button>
-          </Box>
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                maxWidth: 400,
+                width: "100%",
+                mx: "auto",
+                p: 3,
+                backgroundColor: "#fff",
+                boxShadow: 3,
+                borderRadius: 1,
+              }}
+            >
+              <TextField
+                name="title"
+                label="job title"
+                variant="outlined"
+                value={formData.title}
+                onChange={handleChange}
+                fullWidth
+              />
+              <Button type="submit" variant="contained" fullWidth>
+                Add Job Title
+              </Button>
+            </Box>
+          </div>
         </Box> : null}
     </>
   );

@@ -1,10 +1,8 @@
 'use client';
 
 import * as React from 'react';
-// import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -14,9 +12,8 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
-// import dayjs from 'dayjs';
 
-import { useSelection } from '@/hooks/use-selection';
+// import { useSelection } from '@/hooks/use-selection';
 import { userAdmin } from '@/zustand/state';
 import axiosInstance from '@/utils/utils';
 import ActionDropdown from './talets-actions';
@@ -70,21 +67,22 @@ export function CustomersTable({
 }: CustomersTableProps): React.JSX.Element {
 
 
-  const  { allTalents, allTalentsFixed, updateUserAdmin } = userAdmin()
+  const  { allTalents, updateUserAdmin } = userAdmin()
 
-  const getData = async () => {
-    try {
-      const response = await axiosInstance.get('/dashboard/all-talents');
-      updateUserAdmin('allTalents', response.data);
-      updateUserAdmin('allTalentsFixed', response.data);
-    } catch (error) {
-      console.log('Error fetching data:', error);
-    }
-  };
 
+  
   React.useEffect(() => {
+    const getData = async () => {
+      // try {
+        const response = await axiosInstance.get('/dashboard/all-talents');
+        updateUserAdmin('allTalents', response.data);
+        updateUserAdmin('allTalentsFixed', response.data);
+      // } catch (error) {
+      //   // console.log('Error fetching data:', error);
+      // }
+    };
     void getData();
-  }, []);
+  }, [updateUserAdmin]);
 
 
   const paginatedCustomers = applyPagination(allTalents, page, rowsPerPage);
@@ -92,14 +90,15 @@ export function CustomersTable({
   const count = 0
   const rows = paginatedCustomers 
 
-  const rowIds = React.useMemo(() => {
-    return rows.map((customer) => customer.id);
-  }, [rows]);
+  // const rowIds = React.useMemo(() => {
+  //   return rows.map((customer) => customer.id);
+  // }, [rows]);
 
-  const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
+  // const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
 
-  const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-  const selectedAll = rows.length > 0 && selected?.size === rows.length;
+  // const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
+  // const selectedAll = rows.length > 0 && selected?.size === rows.length;
+
 
 
   const sortVerified = () => {
@@ -107,6 +106,7 @@ export function CustomersTable({
     updateUserAdmin("allTalents", sortedData)
   }
   
+
   const sortCompletProfile = () => {
     const sortedData = allTalents.sort((a, b) => Number(b.profile_complete) - Number(a.profile_complete));
     updateUserAdmin("allTalents", sortedData)
@@ -141,10 +141,10 @@ export function CustomersTable({
           </TableHead>
           <TableBody>
             {rows.map((row) => {
-              const isSelected = selected?.has(row.id);
+              // const isSelected = selected?.has(row.id);
 
               return (
-                <TableRow hover key={row.id} selected={isSelected}>
+                <TableRow hover key={row.id} selected={false}>
                   <TableCell padding="checkbox">
                     {/* <Checkbox
                       checked={isSelected}

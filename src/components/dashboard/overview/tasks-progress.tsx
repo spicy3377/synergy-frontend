@@ -20,18 +20,19 @@ export function TasksProgress({ value, sx }: TasksProgressProps): React.JSX.Elem
 
   const { updateUserAdmin, talentsPerWeek, talents } = userAdmin();
 
-  const getData = async () => {
-    try {
-      const response = await axiosInstance.get('/dashboard/talents-per-week');
-      updateUserAdmin('talentsPerWeek', response.data);
-    } catch (error) {
-      console.log('Error fetching data:', error);
-    }
-  };
-
+  
   React.useEffect(() => {
+    const getData = async () => {
+      // try {
+        const response = await axiosInstance.get('/dashboard/talents-per-week');
+        updateUserAdmin('talentsPerWeek', response.data);
+      // } catch (error) {
+      //   const typedError = error as Error;
+      //   // console.log('Error fetching data:', typedError.message);
+      // }
+    };
     void getData();
-  }, []);
+  }, [updateUserAdmin]);
 
   return (
     <Card sx={sx}>

@@ -12,24 +12,24 @@ import axiosInstance from '@/utils/utils';
 
 export interface TotalProfitProps {
   sx?: SxProps;
-  value: string;
 }
 
-export function TotalProfit({ value, sx }: TotalProfitProps): React.JSX.Element {
-  const { updateUserAdmin, talentsPerWeek, talents, verifieidTalents } = userAdmin();
+export function TotalProfit({ sx }: TotalProfitProps): React.JSX.Element {
+  const { updateUserAdmin, verifieidTalents } = userAdmin();
 
-  const getData = async () => {
-    try {
-      const response = await axiosInstance.get('/dashboard/verified-talents');
-      updateUserAdmin('verifieidTalents', response.data);
-    } catch (error) {
-      console.log('Error fetching data:', error);
-    }
-  };
-
+  
   React.useEffect(() => {
+    const getData = async () => {
+      // try {
+        const response = await axiosInstance.get('/dashboard/verified-talents');
+        updateUserAdmin('verifieidTalents', response.data);
+      // } catch (error) {
+      //   const typedError = error as Error;
+      //   console.log('Error fetching data:', typedError.message);
+      // }
+    };
     void getData();
-  }, []);
+  }, [updateUserAdmin]);
   return (
     <Card sx={sx}>
       <CardContent>
