@@ -104,12 +104,14 @@ export function CustomersTable({
   const sortVerified = () => {
     const sortedData = allTalents.sort((a, b) => Number(b.isVerified) - Number(a.isVerified));
     updateUserAdmin("allTalents", sortedData)
+    updateUserAdmin("message", `Talents Sort By Verified Profiles`)
   }
   
 
   const sortCompletProfile = () => {
     const sortedData = allTalents.sort((a, b) => Number(b.profile_complete) - Number(a.profile_complete));
     updateUserAdmin("allTalents", sortedData)
+    updateUserAdmin("message", `Talents Sort By Completed Profiles`)
   }
 
   return (

@@ -12,9 +12,11 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
 import axiosInstance from '@/utils/utils';
+import { userAdmin } from '@/zustand/state';
 
 export function UpdatePasswordForm(): React.JSX.Element {
   const [username, setusername] = React.useState("")
+  const { updateUserAdmin } = userAdmin()
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
       setusername(event.target.value);
@@ -27,8 +29,8 @@ export function UpdatePasswordForm(): React.JSX.Element {
       user_id: null,
     };
     const response = await axiosInstance.post('/admins/reserved-usernames', body);
+    updateUserAdmin("message", `${username} Added to Reserved Usernames`)
     return response
-    // console.log('Response:', response.data);
   };
   return (
     <form

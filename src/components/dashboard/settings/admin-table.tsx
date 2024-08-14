@@ -52,10 +52,12 @@ export interface Admin {
     setOpen(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async() => {
     if (selectedAdmin) {
-    //   setAdmins((prevAdmins) => prevAdmins.filter(admin => admin.id !== selectedAdmin.id));
+      const response = await axiosInstance.post(`admins/remove/${selectedAdmin.id}`);
+      updateUserAdmin("message", `Admin ${selectedAdmin.first_name} Deleted From Database`) 
       setOpen(false);
+      return response
     }
   };
 

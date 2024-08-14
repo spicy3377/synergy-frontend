@@ -6,6 +6,7 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 import { AuthGuard } from '@/components/auth/auth-guard';
 // import { MainNav } from '@/components/dashboard/layout/main-nav';
 import { SideNav } from '@/components/dashboard/layout/side-nav';
+import { SuccessMessage } from '@/components/dashboard/layout/SuccessMessage';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -42,6 +43,7 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
             <Container maxWidth="xl" sx={{ py: '64px' }}>
               {children}
             </Container>
+            <SuccessMessage/>
           </main>
         </Box>
       </Box>

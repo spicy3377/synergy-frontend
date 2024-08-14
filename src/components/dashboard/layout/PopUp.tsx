@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { TextField, Button, Box, MenuItem } from "@mui/material";
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import axiosInstance from "@/utils/utils";
+import { userAdmin } from "@/zustand/state";
 
 interface FormProps {
   onSubmit?: (formData: Record<string, string>) => void;
@@ -15,6 +16,7 @@ const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
 };
 
 export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
+  const { updateUserAdmin } = userAdmin()
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -36,6 +38,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
     event.preventDefault();
     onSubmit?.(formData);
     void axiosInstance.post("/dashboard", formData)
+    updateUserAdmin("message", `Talent ${formData.first_name} ${formData.last_name} has been Added`)
   };
 
 
@@ -128,6 +131,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
 }
 
 export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
+  const {updateUserAdmin} = userAdmin()
   const [formData, setFormData] = useState({
     name: "",
     // email: "",
@@ -149,6 +153,7 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
     event.preventDefault();
     onSubmit?.(formData);
     void axiosInstance.post("/skills", formData)
+    updateUserAdmin("message", `Skill ${formData.name} has been Added`)
   };
 
 
@@ -205,11 +210,12 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
               }}
             >
               <TextField
-                name="skill"
+                name="name"
                 label="Skill"
                 variant="outlined"
                 value={formData.name}
                 onChange={handleChange}
+                type="text"
                 fullWidth
               />
               {/* <TextField
@@ -241,6 +247,7 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
 
 
 export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
+  // const {updateUserAdmin} = userAdmin()
   const [formData, setFormData] = useState({
     title: "",
   });

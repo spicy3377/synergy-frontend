@@ -8,7 +8,7 @@ import axiosInstance from '@/utils/utils';
 function ActionDropdown({ id }: {
     id: string;
 }): React.JSX.Element {
-  const {allTalents} = userAdmin()
+  const {allTalents, updateUserAdmin} = userAdmin()
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,24 +32,28 @@ function ActionDropdown({ id }: {
     const response = await axiosInstance.post('/employer-contact-requests', selectedTalent);
 
     handleClose()
+    updateUserAdmin("message", `${selectedTalent.name} Sent to ${formData.email}`)
     return response
   };
 
   const verifyTalent = async() =>{
     const response = await axiosInstance.post(`/dashboard/${id}/verify`);
     handleClose()
+    updateUserAdmin("message", `Talent with ID: ${id} has been Verified`)
     return response
   }
 
   const suspendTalent = async() =>{
     const response = await axiosInstance.post(`/dashboard/${id}/suspend`);
     handleClose()
+    updateUserAdmin("message", `Talent with ID: ${id} has been Suspended`)
     return response
   }
 
   const removeSuspension = async() =>{
     const response = await axiosInstance.post(`/dashboard/${id}/remove-suspension`);
     handleClose()
+    updateUserAdmin("message", `Suspension on Talent with ID: ${id} has been Removed`)
     return response
   }
 
