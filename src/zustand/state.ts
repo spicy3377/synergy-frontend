@@ -1,7 +1,8 @@
 import { type Customer } from '@/components/dashboard/customer/customers-table';
-import { type Integration } from '@/components/dashboard/integrations/integrations-card';
 import { create } from 'zustand';
-import { type Jobs } from '@/components/dashboard/account/job-card';
+import { type JobData } from '@/components/dashboard/account/job-card';
+import { type Admin } from '@/components/dashboard/settings/admin-table';
+import { type SkillData } from '@/components/dashboard/integrations/skills-card';
 
 export interface WalletState {
     talents: number
@@ -10,10 +11,11 @@ export interface WalletState {
     talentStats:{ name: string; data: number[] }[]
     allTalents: Customer[]
     allTalentsFixed: Customer[]
-    allSkills: Integration[]
-    allSkillsFixed: Integration[]
-    allJobs: Jobs[]
-    allJobsFixed: Jobs[]
+    allSkills: SkillData[]
+    allSkillsFixed: SkillData[]
+    allJobs: JobData[]
+    allJobsFixed: JobData[]
+    allAdmins:Admin[]
     updateUserAdmin: (key: string, value:unknown) => void
 }
 
@@ -28,6 +30,7 @@ export const userAdmin = create<WalletState>((set) => ({
     allSkillsFixed:[],
     allJobs:[],
     allJobsFixed:[],
+    allAdmins:[],
     updateUserAdmin: (key: string, value: unknown) => {
       set((state) => ({
         ...state,

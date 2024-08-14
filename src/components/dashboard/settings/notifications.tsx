@@ -30,17 +30,7 @@ export function Notifications(): React.JSX.Element {
               <Stack spacing={1}>
                 <Typography variant="h6">Email</Typography>
                 <FormGroup>
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="Product updates" />
-                  <FormControlLabel control={<Checkbox />} label="Security updates" />
-                </FormGroup>
-              </Stack>
-            </Grid>
-            <Grid md={4} sm={6} xs={12}>
-              <Stack spacing={1}>
-                <Typography variant="h6">Phone</Typography>
-                <FormGroup>
-                  <FormControlLabel control={<Checkbox defaultChecked />} label="Email" />
-                  <FormControlLabel control={<Checkbox />} label="Security updates" />
+                  <FormControlLabel control={<Checkbox defaultChecked />} label="Email updates" />
                 </FormGroup>
               </Stack>
             </Grid>

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, MenuItem } from "@mui/material";
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import axiosInstance from "@/utils/utils";
 
@@ -323,6 +323,99 @@ export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
               />
               <Button type="submit" variant="contained" fullWidth>
                 Add Job Title
+              </Button>
+            </Box>
+          </div>
+        </Box> : null}
+    </>
+  );
+}
+
+export function SendTalentInfo({ onSubmit }: FormProps): React.JSX.Element {
+  const [formData, setFormData] = useState({
+    email: "",
+  });
+
+  const [formVisible, setFormVisible] = useState(false);
+
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit?.(formData);
+  };
+
+
+  const handleBackgroundClick = () => {
+    setFormVisible(false); // Close the form when clicking outside
+  };
+
+  const handleFormClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation(); // Prevent closing the form when clicking inside it
+  };
+
+  return (
+    <>
+      {/* <Button onClick={() => { setFormVisible(true); }} startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
+        Add
+      </Button> */}
+      <MenuItem onClick={() => { setFormVisible(true); }}>Send Info</MenuItem>
+
+      {formVisible ? <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+          onClick={handleBackgroundClick}
+        >
+          <div
+            onClick={handleFormClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="button"
+          >
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                maxWidth: 400,
+                width: "100%",
+                mx: "auto",
+                p: 3,
+                backgroundColor: "#fff",
+                boxShadow: 3,
+                borderRadius: 1,
+              }}
+            >
+              <TextField
+                name="email"
+                label="Employer email"
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+                fullWidth
+              />
+              <Button type="submit" variant="contained" fullWidth>
+                Send Info
               </Button>
             </Box>
           </div>

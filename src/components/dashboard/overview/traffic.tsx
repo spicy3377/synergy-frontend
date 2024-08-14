@@ -27,9 +27,9 @@ export interface TrafficProps {
 
 export function Traffic({ labels, sx }: TrafficProps): React.JSX.Element {
   const chartOptions = useChartOptions(labels);
-  const { talentsPerWeek, talents } = userAdmin();
+  const { talents, verifieidTalents } = userAdmin();
 
-  const chartSeries = [talents, talentsPerWeek]
+  const chartSeries = [talents, verifieidTalents]
 
   return (
     <Card sx={sx}>
@@ -47,7 +47,7 @@ export function Traffic({ labels, sx }: TrafficProps): React.JSX.Element {
                   {Icon ? <Icon fontSize="var(--icon-fontSize-lg)" /> : null}
                   <Typography variant="h6">{label}</Typography>
                   <Typography color="text.secondary" variant="subtitle2">
-                    {(item * 100)/talents}%
+                    {Math.ceil((item * 100)/talents)}%
                   </Typography>
                 </Stack>
               );

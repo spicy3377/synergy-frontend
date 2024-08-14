@@ -27,6 +27,7 @@ function applyPagination(rows: Customer[], page: number, rowsPerPage: number): C
 }
 
 export interface Customer {
+  isVerified: boolean;
   id: number;
   first_name: string;
   last_name: string;
@@ -48,7 +49,6 @@ export interface Customer {
   career_achievement: string;
   career_quest: string;
   profile_complete: boolean;
-  verified: boolean; // Maps to 'verified'
 }
 
 
@@ -102,7 +102,7 @@ export function CustomersTable({
 
 
   const sortVerified = () => {
-    const sortedData = allTalents.sort((a, b) => Number(b.verified) - Number(a.verified));
+    const sortedData = allTalents.sort((a, b) => Number(b.isVerified) - Number(a.isVerified));
     updateUserAdmin("allTalents", sortedData)
   }
   
@@ -165,7 +165,7 @@ export function CustomersTable({
                     </Stack>
                   </TableCell>
                   <TableCell>{row.email}</TableCell>
-                  <TableCell>{row.verified ? "true" : "false"}</TableCell>
+                  <TableCell>{row.isVerified ? "true" : "false"}</TableCell>
                   <TableCell>{row.profile_complete ? "true" : "false"}</TableCell>
                   {/* <TableCell>
                     {row.address.city}, {row.address.state}, {row.address.country}

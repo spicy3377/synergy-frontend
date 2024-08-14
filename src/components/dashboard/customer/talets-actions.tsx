@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { userAdmin } from '@/zustand/state';
+import { SendTalentInfo } from '../layout/PopUp';
+import axiosInstance from '@/utils/utils';
 
 function ActionDropdown({ id }: {
     id: string;
 }): React.JSX.Element {
+  const {allTalents} = userAdmin()
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -14,6 +18,40 @@ function ActionDropdown({ id }: {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSendInfo = async(formData: Record<string, string>) => {
+    const selectedTalent = allTalents
+    .filter(token => token.id.toString() === id)
+    .map(token => ({
+      role: "role",
+      name: `${token.first_name} ${token.last_name}`,
+      email: formData.email,
+      company: "company"
+    }))[0];
+
+    const response = await axiosInstance.post('/employer-contact-requests', selectedTalent);
+
+    handleClose()
+    return response
+  };
+
+  const verifyTalent = async() =>{
+    const response = await axiosInstance.post(`/dashboard/${id}/verify`);
+    handleClose()
+    return response
+  }
+
+  const suspendTalent = async() =>{
+    const response = await axiosInstance.post(`/dashboard/${id}/suspend`);
+    handleClose()
+    return response
+  }
+
+  const removeSuspension = async() =>{
+    const response = await axiosInstance.post(`/dashboard/${id}/remove-suspension`);
+    handleClose()
+    return response
+  }
 
   return (
     <div>
@@ -30,11 +68,12 @@ function ActionDropdown({ id }: {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Send Info</MenuItem>
+        {/* <MenuItem onClick={handleSendInfo}>Send Info</MenuItem> */}
+        <SendTalentInfo onSubmit={handleSendInfo}/>
         <MenuItem onClick={handleClose}>Share with Employer</MenuItem>
-        <MenuItem onClick={handleClose}>Verify Talents</MenuItem>
-        <MenuItem onClick={handleClose}>Regain Deleted Access</MenuItem>
-        <MenuItem onClick={handleClose}>Soft Delete</MenuItem>
+        <MenuItem onClick={verifyTalent}>Verify Talents</MenuItem>
+        <MenuItem onClick={removeSuspension}>Regain Deleted Access</MenuItem>
+        <MenuItem onClick={suspendTalent}>Soft Delete</MenuItem>
       </Menu>
     </div>
   );
