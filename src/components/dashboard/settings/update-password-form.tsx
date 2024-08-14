@@ -24,9 +24,6 @@ export function UpdatePasswordForm(): React.JSX.Element {
         <Divider />
         <CardContent>
           <Stack spacing={3} sx={{ maxWidth: 'sm' }}>
-            synergyy
-            synergyyHQ
-            synergyng
             <FormControl fullWidth>
               <InputLabel>Add restricted username</InputLabel>
               <OutlinedInput label="add a restricted username" name="username" type="text" />

@@ -165,20 +165,14 @@ function JobsCard(): React.JSX.Element{
               <TableCell>ID</TableCell>
               <TableCell>Title</TableCell>
               <TableCell>Company</TableCell>
-              {/* <TableCell>Description</TableCell> */}
               <TableCell>Location</TableCell>
               <TableCell>Salary</TableCell>
               <TableCell>Company Logo</TableCell>
-              {/* <TableCell>Link</TableCell> */}
-              {/* <TableCell>User ID</TableCell> */}
               <TableCell>Job Type ID</TableCell>
               <TableCell>Active</TableCell>
-              {/* <TableCell>Created At</TableCell>
-              <TableCell>Updated At</TableCell> */}
               <TableCell>Min Salary</TableCell>
               <TableCell>Max Salary</TableCell>
               <TableCell>Status</TableCell>
-              {/* <TableCell>Job Style ID</TableCell> */}
               <TableCell>Currency ID</TableCell>
               <TableCell>End Date</TableCell>
               <TableCell>Job Title ID</TableCell>

@@ -6,7 +6,7 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import type { SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { Receipt as ReceiptIcon } from '@phosphor-icons/react/dist/ssr/Receipt';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import { userAdmin } from '@/zustand/state';
 import axiosInstance from '@/utils/utils';
 
@@ -41,7 +41,8 @@ export function TotalProfit({ sx }: TotalProfitProps): React.JSX.Element {
             <Typography variant="h4">{verifieidTalents}</Typography>
           </Stack>
           <Avatar sx={{ backgroundColor: 'var(--mui-palette-primary-main)', height: '56px', width: '56px' }}>
-            <ReceiptIcon fontSize="var(--icon-fontSize-lg)" />
+            {/* <ReceiptIcon fontSize="var(--icon-fontSize-lg)" /> */}
+            <VerifiedIcon/>
           </Avatar>
         </Stack>
       </CardContent>

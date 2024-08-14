@@ -8,6 +8,7 @@ export interface WalletState {
     talents: number
     verifieidTalents: number
     talentsPerWeek:number
+    talentsPerDay:number
     talentStats:{ name: string; data: number[] }[]
     allTalents: Customer[]
     allTalentsFixed: Customer[]
@@ -23,6 +24,7 @@ export const userAdmin = create<WalletState>((set) => ({
     talents:0,
     verifieidTalents:0,
     talentsPerWeek:0,
+    talentsPerDay:0,
     talentStats:[],
     allTalents:[],
     allTalentsFixed:[],

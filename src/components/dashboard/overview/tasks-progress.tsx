@@ -3,22 +3,22 @@ import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import LinearProgress from '@mui/material/LinearProgress';
+// import LinearProgress from '@mui/material/LinearProgress';
 import Stack from '@mui/material/Stack';
 import type { SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { ListBullets as ListBulletsIcon } from '@phosphor-icons/react/dist/ssr/ListBullets';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 import { userAdmin } from '@/zustand/state';
 import axiosInstance from '@/utils/utils';
 
 export interface TasksProgressProps {
   sx?: SxProps;
-  value: number;
+  value?: number;
 }
 
-export function TasksProgress({ value, sx }: TasksProgressProps): React.JSX.Element {
+export function TasksProgress({ sx }: TasksProgressProps): React.JSX.Element {
 
-  const { updateUserAdmin, talentsPerWeek, talents } = userAdmin();
+  const { updateUserAdmin, talentsPerWeek } = userAdmin();
 
   
   React.useEffect(() => {
@@ -43,15 +43,15 @@ export function TasksProgress({ value, sx }: TasksProgressProps): React.JSX.Elem
               <Typography color="text.secondary" gutterBottom variant="overline">
                 Talents Per Week
               </Typography>
-              <Typography variant="h4">{(talentsPerWeek*100)/talents}%</Typography>
+              <Typography variant="h4">{talentsPerWeek}</Typography>
             </Stack>
             <Avatar sx={{ backgroundColor: 'var(--mui-palette-warning-main)', height: '56px', width: '56px' }}>
-              <ListBulletsIcon fontSize="var(--icon-fontSize-lg)" />
+              <EventNoteIcon/>
             </Avatar>
           </Stack>
-          <div>
+          {/* <div>
             <LinearProgress value={value} variant="determinate" />
-          </div>
+          </div> */}
         </Stack>
       </CardContent>
     </Card>
