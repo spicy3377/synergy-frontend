@@ -37,7 +37,7 @@ export function JobFilters(): React.JSX.Element {
         onChange={handleSearchAndSort}
         defaultValue=""
         fullWidth
-        placeholder="Search skills"
+        placeholder="Search jobs"
         startAdornment={
           <InputAdornment position="start">
             <MagnifyingGlassIcon fontSize="var(--icon-fontSize-md)" />

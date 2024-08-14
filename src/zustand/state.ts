@@ -5,6 +5,7 @@ import { type Admin } from '@/components/dashboard/settings/admin-table';
 import { type SkillData } from '@/components/dashboard/integrations/skills-card';
 
 export interface WalletState {
+    message: string | null
     talents: number
     verifieidTalents: number
     talentsPerWeek:number
@@ -21,6 +22,7 @@ export interface WalletState {
 }
 
 export const userAdmin = create<WalletState>((set) => ({
+    message: null,
     talents:0,
     verifieidTalents:0,
     talentsPerWeek:0,

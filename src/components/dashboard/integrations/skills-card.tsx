@@ -107,8 +107,8 @@ function SkillsCard(): React.JSX.Element{
                 <TableCell>{skill.user_id}</TableCell>
                 <TableCell>{skill.name}</TableCell>
                 <TableCell>{skill.top_skill ? 'Yes' : 'No'}</TableCell>
-                <TableCell>{skill.created_at}</TableCell>
-                <TableCell>{skill.updated_at}</TableCell>
+                <TableCell>{skill.created_at.substring(0, 10)}</TableCell>
+                <TableCell>{skill.updated_at.substring(0, 10)}</TableCell>
                 <TableCell>{skill.type}</TableCell>
                 <TableCell>{skill.approved ? 'Yes' : 'No'}</TableCell>
               </TableRow>

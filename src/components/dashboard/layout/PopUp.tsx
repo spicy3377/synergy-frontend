@@ -105,7 +105,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
                 variant="outlined"
                 value={formData.last_name}
                 onChange={handleChange}
-                type="password"
+                type="text"
                 fullWidth
               />
               <TextField
@@ -114,6 +114,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
                 variant="outlined"
                 value={formData.email}
                 onChange={handleChange}
+                type="email"
                 fullWidth
               />
               <Button type="submit" variant="contained" fullWidth>

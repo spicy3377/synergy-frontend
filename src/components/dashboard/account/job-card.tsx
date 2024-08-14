@@ -175,7 +175,7 @@ function JobsCard(): React.JSX.Element{
               <TableCell>Status</TableCell>
               <TableCell>Currency ID</TableCell>
               <TableCell>End Date</TableCell>
-              <TableCell>Job Title ID</TableCell>
+              {/* <TableCell>Job Title ID</TableCell> */}
               <TableCell>Experience</TableCell>
               <TableCell>Total Talents</TableCell>
             </TableRow>
@@ -207,8 +207,8 @@ function JobsCard(): React.JSX.Element{
                 <TableCell>{job.status}</TableCell>
                 {/* <TableCell>{job.job_style_id}</TableCell> */}
                 <TableCell>{job.currency_id}</TableCell>
-                <TableCell>{job.end_date}</TableCell>
-                <TableCell>{job.job_title_id}</TableCell>
+                <TableCell>{(job.end_date).substring(0, 10)}</TableCell>
+                {/* <TableCell>{job.job_title_id}</TableCell> */}
                 <TableCell>{job.experience}</TableCell>
                 <TableCell>{job.total_talents}</TableCell>
               </TableRow>
