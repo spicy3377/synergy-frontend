@@ -6,22 +6,20 @@ import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import type { SxProps } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { ArrowDown as ArrowDownIcon } from '@phosphor-icons/react/dist/ssr/ArrowDown';
-import { ArrowUp as ArrowUpIcon } from '@phosphor-icons/react/dist/ssr/ArrowUp';
 import { Users as UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
 import axiosInstance from '@/utils/utils';
 import { userAdmin } from '@/zustand/state';
 
 export interface TotalCustomersProps {
   diff?: number;
-  trend: 'up' | 'down';
+  trend?: 'up' | 'down';
   sx?: SxProps;
   // value: string;
 }
 
-export function TotalCustomers({ diff, trend, sx }: TotalCustomersProps): React.JSX.Element {
-  const TrendIcon = trend === 'up' ? ArrowUpIcon : ArrowDownIcon;
-  const trendColor = trend === 'up' ? 'var(--mui-palette-success-main)' : 'var(--mui-palette-error-main)';
+export function TotalCustomers({ sx }: TotalCustomersProps): React.JSX.Element {
+  // const TrendIcon = trend === 'up' ? ArrowUpIcon : ArrowDownIcon;
+  // const trendColor = trend === 'up' ? 'var(--mui-palette-success-main)' : 'var(--mui-palette-error-main)';
 
   const { talents, updateUserAdmin } = userAdmin();
 
@@ -55,7 +53,7 @@ export function TotalCustomers({ diff, trend, sx }: TotalCustomersProps): React.
               <UsersIcon fontSize="var(--icon-fontSize-lg)" />
             </Avatar>
           </Stack>
-          {diff ? (
+          {/* {diff ? (
             <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
               <Stack sx={{ alignItems: 'center' }} direction="row" spacing={0.5}>
                 <TrendIcon color={trendColor} fontSize="var(--icon-fontSize-md)" />
@@ -67,7 +65,7 @@ export function TotalCustomers({ diff, trend, sx }: TotalCustomersProps): React.
                 Since last month
               </Typography>
             </Stack>
-          ) : null}
+          ) : null} */}
         </Stack>
       </CardContent>
     </Card>

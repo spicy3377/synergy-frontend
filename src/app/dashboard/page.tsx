@@ -18,7 +18,7 @@ export default function Page(): React.JSX.Element {
         <Budget sx={{ height: '100%' }} value="3" />
       </Grid>
       <Grid lg={3} sm={6} xs={12}>
-        <TotalCustomers diff={16} trend="down" sx={{ height: '100%' }} />
+        <TotalCustomers sx={{ height: '100%' }} />
       </Grid>
       <Grid lg={3} sm={6} xs={12}>
         <TasksProgress sx={{ height: '100%' }} value={75.5} />
