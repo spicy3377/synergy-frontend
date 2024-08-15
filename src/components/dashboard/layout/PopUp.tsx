@@ -156,6 +156,7 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
     // try {
       await axiosInstance.post("/skills", formData);
       updateUserAdmin("message", `Skill "${formData.name}" has been added`);
+      setFormVisible(false);
     // } catch (error) {
     //   updateUserAdmin("message", `Failed to add skill: ${error}`);
     // }
@@ -425,6 +426,7 @@ export function SendTalentInfo({ onSubmit }: FormProps): React.JSX.Element {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit?.(formData);
+    setFormVisible(false);
   };
 
 
@@ -500,6 +502,168 @@ export function SendTalentInfo({ onSubmit }: FormProps): React.JSX.Element {
   );
 }
 
+
+export function AddAdmin({ onSubmit }: FormProps): React.JSX.Element {
+  const { updateUserAdmin } = userAdmin()
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+  const [formVisible, setFormVisible] = useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (onSubmit) {
+      onSubmit(formData);
+    }
+
+    // try {
+      await axiosInstance.post("/admins/create-admin", {
+        ...formData,
+        is_super: true,
+        talent_dashboard: true,
+        deactivated: false,
+      });
+      updateUserAdmin("message", `Admin "${formData.first_name} ${formData.last_name}" has been added`);
+      setFormVisible(false);
+    // } catch (error) {
+    //   updateUserAdmin("message",`Failed to add admin: ${error}`);
+    // }
+  };
+
+  const handleBackgroundClick = () => { setFormVisible(false); };
+
+  const handleFormClick = (event: React.MouseEvent<HTMLDivElement>) =>
+    { event.stopPropagation(); };
+
+  const openForm = () => { setFormVisible(true); };
+
+  return (
+    <>
+      <Button
+        onClick={openForm}
+        startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
+        variant="contained"
+      >
+        Add Admin
+      </Button>
+
+      {formVisible ? (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+          onClick={handleBackgroundClick}
+        >
+          <Box
+            component="div"
+            onClick={handleFormClick}
+            tabIndex={0}
+            role="button"
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                setFormVisible(false);
+              }
+            }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              maxWidth: 400,
+              width: "100%",
+              mx: "auto",
+              p: 3,
+              backgroundColor: "#fff",
+              boxShadow: 3,
+              borderRadius: 1,
+            }}
+          >
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
+              <TextField
+                name="first_name"
+                label="First Name"
+                variant="outlined"
+                value={formData.first_name}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+              <TextField
+                name="last_name"
+                label="Last Name"
+                variant="outlined"
+                value={formData.last_name}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+              <TextField
+                name="email"
+                label="Email"
+                type="email"
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+              <TextField
+                name="phone"
+                label="Phone"
+                variant="outlined"
+                value={formData.phone}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+              <TextField
+                name="password"
+                label="Password"
+                type="password"
+                variant="outlined"
+                value={formData.password}
+                onChange={handleChange}
+                fullWidth
+                required
+              />
+              <Button type="submit" variant="contained" fullWidth>
+                Add Admin
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      ) : null}
+    </>
+  );
+}
 
 
 
