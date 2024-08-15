@@ -39,6 +39,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
     onSubmit?.(formData);
     void axiosInstance.post("/dashboard", formData)
     updateUserAdmin("message", `Talent ${formData.first_name} ${formData.last_name} has been Added`)
+    setFormVisible(false);
   };
 
 
@@ -101,6 +102,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
                 value={formData.first_name}
                 onChange={handleChange}
                 fullWidth
+                required
               />
               <TextField
                 name="last_name"
@@ -110,6 +112,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
                 onChange={handleChange}
                 type="text"
                 fullWidth
+                required
               />
               <TextField
                 name="email"
@@ -119,6 +122,7 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
                 onChange={handleChange}
                 type="email"
                 fullWidth
+                required
               />
               <Button type="submit" variant="contained" fullWidth>
                 Add Talent
@@ -131,45 +135,47 @@ export function MyForm({ onSubmit }: FormProps): React.JSX.Element {
 }
 
 export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
-  const {updateUserAdmin} = userAdmin()
-  const [formData, setFormData] = useState({
-    name: "",
-    // email: "",
-    // password: "",
-  });
-
+  const { updateUserAdmin } = userAdmin();
+  const [formData, setFormData] = useState({ name: "" });
   const [formVisible, setFormVisible] = useState(false);
-
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit?.(formData);
-    void axiosInstance.post("/skills", formData)
-    updateUserAdmin("message", `Skill ${formData.name} has been Added`)
+    if (onSubmit) {
+      onSubmit(formData);
+    }
+
+    // try {
+      await axiosInstance.post("/skills", formData);
+      updateUserAdmin("message", `Skill "${formData.name}" has been added`);
+    // } catch (error) {
+    //   updateUserAdmin("message", `Failed to add skill: ${error}`);
+    // }
   };
 
+  const handleBackgroundClick = () => { setFormVisible(false); };
 
-  const handleBackgroundClick = () => {
-    setFormVisible(false); // Close the form when clicking outside
-  };
+  const handleFormClick = (event: React.MouseEvent<HTMLDivElement>) =>
+    { event.stopPropagation(); };
 
-
-  const handleFormClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation(); // Prevent closing the form when clicking inside it
-  };
+  const openForm = () => { setFormVisible(true); };
 
   return (
     <>
-      <Button onClick={() => { setFormVisible(true); }} startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-        Add
+      <Button
+        onClick={openForm}
+        startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
+        variant="contained"
+      >
+        Add Skill
       </Button>
 
       {formVisible ? <Box
@@ -187,11 +193,28 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
           }}
           onClick={handleBackgroundClick}
         >
-          <div
+          <Box
+            component="div"
             onClick={handleFormClick}
-            onKeyDown={handleKeyDown}
             tabIndex={0}
             role="button"
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                setFormVisible(false);
+              }
+            }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              maxWidth: 400,
+              width: "100%",
+              mx: "auto",
+              p: 3,
+              backgroundColor: "#fff",
+              boxShadow: 3,
+              borderRadius: 1,
+            }}
           >
             <Box
               component="form"
@@ -200,13 +223,6 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
                 display: "flex",
                 flexDirection: "column",
                 gap: 2,
-                maxWidth: 400,
-                width: "100%",
-                mx: "auto",
-                p: 3,
-                backgroundColor: "#fff",
-                boxShadow: 3,
-                borderRadius: 1,
               }}
             >
               <TextField
@@ -215,73 +231,112 @@ export function AddSkills({ onSubmit }: FormProps): React.JSX.Element {
                 variant="outlined"
                 value={formData.name}
                 onChange={handleChange}
-                type="text"
                 fullWidth
+                required
               />
-              {/* <TextField
-                name="email"
-                label="Email"
-                variant="outlined"
-                value={formData.email}
-                onChange={handleChange}
-                fullWidth
-              />
-              <TextField
-                name="password"
-                label="Password"
-                variant="outlined"
-                value={formData.password}
-                onChange={handleChange}
-                type="password"
-                fullWidth
-              /> */}
               <Button type="submit" variant="contained" fullWidth>
                 Add Skill
               </Button>
             </Box>
-          </div>
+          </Box>
         </Box> : null}
     </>
   );
 }
 
+interface FormData {
+  title: string;
+  company: string;
+  description: string;
+  location: string;
+  salary: string;
+  company_logo: string;
+  link: string;
+  user_id: string;
+  job_type_id: string;
+  active: boolean;
+  min_salary: string;
+  max_salary: string;
+  status: string;
+  job_style_id: string;
+  currency_id: string;
+  end_date: string;
+  job_title_id: string;
+  experience: string;
+  total_talents: number;
+}
+
+type FormFieldName = keyof FormData;
 
 export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
-  // const {updateUserAdmin} = userAdmin()
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: "",
+    company: "",
+    description: "",
+    location: "",
+    salary: "",
+    company_logo: "",
+    link: "",
+    user_id: "",
+    job_type_id: "",
+    active: true,
+    min_salary: "",
+    max_salary: "",
+    status: "",
+    job_style_id: "",
+    currency_id: "",
+    end_date: "",
+    job_title_id: "",
+    experience: "",
+    total_talents: 0,
   });
 
   const [formVisible, setFormVisible] = useState(false);
 
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       [name]: value,
-    });
+    }));
   };
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit?.(formData);
+
+    const transformedData = {
+      ...formData,
+      active: formData.active.toString(),
+      total_talents: formData.total_talents.toString(),
+    };
+
+    onSubmit?.(transformedData);
+    void axiosInstance.post("/jobs", transformedData);
+    setFormVisible(false);
   };
 
-
   const handleBackgroundClick = () => {
-    setFormVisible(false); // Close the form when clicking outside
+    setFormVisible(false);
   };
 
   const handleFormClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.stopPropagation(); // Prevent closing the form when clicking inside it
+    event.stopPropagation();
   };
+
+  const formFields: { name: FormFieldName; label: string; multiline: boolean; rows?: number }[] = [
+    { name: "title", label: "Job Title", multiline: false },
+    { name: "company", label: "Company", multiline: false },
+    { name: "description", label: "Description", multiline: true, rows: 4 },
+    { name: "location", label: "Location", multiline: false },
+    { name: "salary", label: "Salary", multiline: false },
+    { name: "company_logo", label: "Company Logo URL", multiline: false },
+    { name: "link", label: "Job Link", multiline: false },
+  ];
 
   return (
     <>
       <Button onClick={() => { setFormVisible(true); }} startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
-        Add
+        Add Job
       </Button>
 
       {formVisible ? <Box
@@ -310,10 +365,9 @@ export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
               onSubmit={handleSubmit}
               sx={{
                 display: "flex",
-                flexDirection: "column",
+                flexWrap: "wrap",
                 gap: 2,
-                maxWidth: 400,
-                width: "100%",
+                maxWidth: 800,
                 mx: "auto",
                 p: 3,
                 backgroundColor: "#fff",
@@ -321,17 +375,29 @@ export function AddJobs({ onSubmit }: FormProps): React.JSX.Element {
                 borderRadius: 1,
               }}
             >
-              <TextField
-                name="title"
-                label="job title"
-                variant="outlined"
-                value={formData.title}
-                onChange={handleChange}
-                fullWidth
-              />
-              <Button type="submit" variant="contained" fullWidth>
-                Add Job Title
-              </Button>
+              {formFields.map((field) => (
+                <Box
+                  key={field.name}
+                  sx={{ flexBasis: field.multiline ? '100%' : '48%', flexGrow: 1 }}
+                >
+                  <TextField
+                    name={field.name}
+                    label={field.label}
+                    variant="outlined"
+                    value={formData[field.name]} // No more TypeScript error
+                    onChange={handleChange}
+                    fullWidth
+                    multiline={field.multiline}
+                    rows={field.rows || 1}
+                    required
+                  />
+                </Box>
+              ))}
+              <Box sx={{ flexBasis: '100%' }}>
+                <Button type="submit" variant="contained" fullWidth>
+                  Add Job
+                </Button>
+              </Box>
             </Box>
           </div>
         </Box> : null}
@@ -421,6 +487,8 @@ export function SendTalentInfo({ onSubmit }: FormProps): React.JSX.Element {
                 value={formData.email}
                 onChange={handleChange}
                 fullWidth
+                required
+                type="email"
               />
               <Button type="submit" variant="contained" fullWidth>
                 Send Info

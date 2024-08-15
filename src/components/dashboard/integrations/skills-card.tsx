@@ -91,7 +91,6 @@ function SkillsCard(): React.JSX.Element{
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>User ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Top Skill</TableCell>
               <TableCell>Created At</TableCell>
@@ -104,7 +103,6 @@ function SkillsCard(): React.JSX.Element{
             {paginatedData.map((skill) => (
               <TableRow key={skill.id}>
                 <TableCell>{skill.id}</TableCell>
-                <TableCell>{skill.user_id}</TableCell>
                 <TableCell>{skill.name}</TableCell>
                 <TableCell>{skill.top_skill ? 'Yes' : 'No'}</TableCell>
                 <TableCell>{skill.created_at.substring(0, 10)}</TableCell>
