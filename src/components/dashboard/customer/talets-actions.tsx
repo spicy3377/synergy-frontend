@@ -44,14 +44,14 @@ function ActionDropdown({ id }: {
   }
 
   const suspendTalent = async() =>{
-    const response = await axiosInstance.post(`/dashboard/${id}/suspend`);
-    handleClose()
-    updateUserAdmin("message", `Talent with ID: ${id} has been Suspended`)
-    return response
+      const response = await axiosInstance.patch(`/dashboard/${id}/suspend`);
+      handleClose()
+      updateUserAdmin("message", `Talent with ID: ${id} has been Suspended`)
+      return response
   }
 
   const removeSuspension = async() =>{
-    const response = await axiosInstance.post(`/dashboard/${id}/remove-suspension`);
+    const response = await axiosInstance.patch(`/dashboard/${id}/remove-suspension`);
     handleClose()
     updateUserAdmin("message", `Suspension on Talent with ID: ${id} has been Removed`)
     return response
@@ -74,7 +74,7 @@ function ActionDropdown({ id }: {
       >
         {/* <MenuItem onClick={handleSendInfo}>Send Info</MenuItem> */}
         <SendTalentInfo onSubmit={handleSendInfo}/>
-        <MenuItem onClick={handleClose}>Share with Employer</MenuItem>
+        {/* <MenuItem onClick={handleClose}>Share with Employer</MenuItem> */}
         <MenuItem onClick={verifyTalent}>Verify Talents</MenuItem>
         <MenuItem onClick={removeSuspension}>Regain Deleted Access</MenuItem>
         <MenuItem onClick={suspendTalent}>Soft Delete</MenuItem>

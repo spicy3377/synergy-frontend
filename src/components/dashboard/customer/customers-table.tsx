@@ -13,7 +13,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-// import { useSelection } from '@/hooks/use-selection';
+import { TableSortLabel } from '@mui/material';
 import { userAdmin } from '@/zustand/state';
 import axiosInstance from '@/utils/utils';
 import ActionDropdown from './talets-actions';
@@ -90,18 +90,15 @@ export function CustomersTable({
   const count = 0
   const rows = paginatedCustomers 
 
-  // const rowIds = React.useMemo(() => {
-  //   return rows.map((customer) => customer.id);
-  // }, [rows]);
-
-  // const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
-
-  // const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-  // const selectedAll = rows.length > 0 && selected?.size === rows.length;
+  const [order, setOrder] = React.useState<'asc' | 'desc'>('asc');
+  const [orderBy, setOrderBy] = React.useState<string>('');
 
 
 
   const sortVerified = () => {
+    const isAsc = orderBy === 'verified' && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy('verified');
     const sortedData = allTalents.sort((a, b) => Number(b.isVerified) - Number(a.isVerified));
     updateUserAdmin("allTalents", sortedData)
     updateUserAdmin("message", `Talents Sort By Verified Profiles`)
@@ -109,6 +106,9 @@ export function CustomersTable({
   
 
   const sortCompletProfile = () => {
+    const isAsc = orderBy === 'completedProfile' && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy('completedProfile');
     const sortedData = allTalents.sort((a, b) => Number(b.profile_complete) - Number(a.profile_complete));
     updateUserAdmin("allTalents", sortedData)
     updateUserAdmin("message", `Talents Sort By Completed Profiles`)
@@ -136,8 +136,22 @@ export function CustomersTable({
               {/* <TableCell>Id</TableCell> */}
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell onClick={() => { sortVerified(); }}>Verified</TableCell>
-              <TableCell onClick={() => { sortCompletProfile(); }}>Completed Profile</TableCell>
+              <TableCell onClick={() => { sortVerified(); }}>
+                <TableSortLabel
+                  active={orderBy === 'verified'}
+                  direction={orderBy === 'verified' ? order : 'asc'}
+                >
+                  Verified
+                </TableSortLabel>
+              </TableCell>
+              <TableCell onClick={() => { sortCompletProfile(); }}>
+                <TableSortLabel
+                  active={orderBy === 'completedProfile'}
+                  direction={orderBy === 'completedProfile' ? order : 'asc'}
+                >
+                  Completed Profile
+                </TableSortLabel>
+              </TableCell>
               {/* <TableCell>Signed Up</TableCell> */}
             </TableRow>
           </TableHead>
