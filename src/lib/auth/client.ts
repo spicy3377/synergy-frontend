@@ -54,15 +54,17 @@ class AuthClient {
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
     const { email, password } = params;
 
+    // console.log(email, password);
+    
     // Make API request
 
     // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== 'sofia@synergy.io' || password !== 'Secret1') {
-      return { error: 'Invalid credentials' };
-    }
+    // if (email !== 'sofia@synergy.io' || password !== 'Secret1') {
+    //   return { error: 'Invalid credentials' };
+    // }
 
     const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
+    email && password && localStorage.setItem('custom-auth-token', token);
 
     return {};
   }

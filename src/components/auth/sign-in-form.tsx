@@ -21,6 +21,7 @@ import { z as zod } from 'zod';
 import { paths } from '@/paths';
 import { authClient } from '@/lib/auth/client';
 import { useUser } from '@/hooks/use-user';
+import axiosInstance from '@/utils/utils';
 
 const schema = zod.object({
   email: zod.string().min(1, { message: 'Email is required' }).email(),
@@ -29,7 +30,7 @@ const schema = zod.object({
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { email: 'sofia@synergy.io', password: 'Secret1' } satisfies Values;
+const defaultValues = { email: 'john.doe@example.com', password: 'securepassword' } satisfies Values;
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
@@ -47,24 +48,80 @@ export function SignInForm(): React.JSX.Element {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
+  // const onSubmit = React.useCallback(
+  //   async (values: Values): Promise<void> => {
+  //     setIsPending(true);
+
+  //     const { error } = await authClient.signInWithPassword(values);
+
+  //     if (error) {
+  //       setError('root', { type: 'server', message: error });
+  //       setIsPending(false);
+  //       return;
+  //     }
+
+  //     // Refresh the auth state
+  //     await checkSession?.();
+
+  //     // UserProvider, for this case, will not refresh the router
+  //     // After refresh, GuestGuard will handle the redirect
+  //     router.refresh();
+  //   },
+  //   [checkSession, router, setError]
+  // );
+
+  interface ValidateAdminResponse {
+    success?: boolean;
+    error?: string;
+  }
+  
+
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       setIsPending(true);
+  
+      try {
+        await axiosInstance.post<ValidateAdminResponse>('/admins/validate', {
+          email: values.email,
+          password: values.password,
+        });
+  
+        // if (response.status !== 200 || response.data.error) {
+        //   console.log("response", response);
+          
+        //   setError('root', { type: 'server', message: response.data.error || 'Invalid credentials' });
+        //   setIsPending(false);
+        //   return;
+        // }
 
-      const { error } = await authClient.signInWithPassword(values);
-
-      if (error) {
-        setError('root', { type: 'server', message: error });
-        setIsPending(false);
-        return;
+        const { error } = await authClient.signInWithPassword(values);
+  
+        if (error) {
+          setError('root', { type: 'server', message: error });
+          setIsPending(false);
+          return;
+        }
+  
+        // Refresh the auth state
+        await checkSession?.();
+  
+        router.refresh();
+      } catch (err) {
+        if (err instanceof Error) {
+          setError('root', {
+              type: 'server',
+              message: err.message || 'An unexpected error occurred',
+          });
+      } else {
+          setError('root', {
+              type: 'server',
+              message: 'An unexpected error occurred',
+          });
       }
-
-      // Refresh the auth state
-      await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      router.refresh();
+      setIsPending(false);
+      } finally {
+        setIsPending(false);
+      }
     },
     [checkSession, router, setError]
   );
